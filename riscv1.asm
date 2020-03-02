@@ -1,6 +1,6 @@
 main: li a3 0x110C0000 # SSEG
 li a2 966853 # for mpg calculation
-li s1 999999
+li s1 999999 # max before time reset
 li s5 0
 la t1 ISR
 csrw t1 mtvec
@@ -11,6 +11,9 @@ li a1 0
 
 loop: addi a1 a1 1
 sw a1 0(a3)
+bge a1 s1 wipe
+j loop
+wipe: li a1 0
 j loop
 
 ISR: csrw zero mie
